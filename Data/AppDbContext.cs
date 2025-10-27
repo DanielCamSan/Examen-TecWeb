@@ -15,6 +15,12 @@ namespace TecWebFest.Api.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<Festival>(b =>
+            {
+                b.HasKey(x => x.Id);
+                b.Property(x => x.Name);
+                b.Property(x => x.Age);
+            });
             //TODO
 
             // 1:N Festival -> Stages (FK requerida, cascade)
