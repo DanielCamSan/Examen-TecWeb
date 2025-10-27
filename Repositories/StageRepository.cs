@@ -5,7 +5,7 @@ namespace TecWebFest.Repositories
 {
     public class StageRepository : IStageRepository
     {
-        // TODO INYECCION 
+        private readonly AppDbContext _ctx;
 
         public Task<bool> ExistsAsync(int id) =>
             _ctx.Stages.AnyAsync(s => s.Id == id);
