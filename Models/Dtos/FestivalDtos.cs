@@ -5,6 +5,7 @@ namespace TecWebFest.Api.DTOs
 {
     public class CreateFestivalDto
     {
+        public int StageId { get; set; }
         [Required] public string Name { get; set; } = default!;
         [Required] public string City { get; set; } = default!;
         [Required] public DateTime StartDate { get; set; }
@@ -16,6 +17,7 @@ namespace TecWebFest.Api.DTOs
 
     public class CreateStageDto
     {
+        public int StageId { get; set; }
         [Required] public string Name { get; set; } = default!;
     }
 

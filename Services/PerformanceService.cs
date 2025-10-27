@@ -39,6 +39,32 @@ namespace TecWebFest.Api.Services
             // TODO VERIFICAR QUE NO HAYA SOLAPAMIENTO ENTRE PERFEROMANCES VER QUE EL STAGE ESTE LIBRE.
            
             // ANADIR EL PERFORMANCE
+            var startUtc = dto.StartTime.Kind == DateTimeKind.Unspecified
+                ? DateTime.SpecifyKind(dto.StartTime, DateTimeKind.Utc)
+                : dto.StartTime.ToUniversalTime();
+            var endUtc = dto.EndTime.Kind == DateTimeKind.Unspecified
+                ? DateTime.SpecifyKind(dto.EndTime, DateTimeKind.Utc)
+                : dto.EndTime.ToUniversalTime();
+            Artist? artist = await _artists.GetScheduleAsync(dto.ArtistId);
+            bool stage = await _stages.ExistsAsync(dto.StageId)
+            if (artist == null || stage == false || endUtc <= startUtc)
+            {
+                throw new ArgumentException("Invalid artist, stage, or time range.");
+            }
+            bool isOverlapping = await _performances.HasOverlapAsync(dto.StageId, startUtc, endUtc);
+            if (isOverlapping)
+            {
+                throw new InvalidOperationException("The performance time overlaps with an existing performance on the same stage.");
+            }
+            var performance = new Performance
+            {
+                ArtistId = dto.ArtistId,
+                StageId = dto.StageId,
+                StartTime = startUtc,
+                EndTime = endUtc
+            };
+            await _performances.AddAsync(performance);
+            await _performances.SaveChangesAsync();
         }
     }
 }

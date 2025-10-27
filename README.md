@@ -1,4 +1,4 @@
-﻿# TecWebFest — Examen (90 minutos)
+﻿B# TecWebFest — Examen (90 minutos)
 
 **Objetivo:** Evaluar dominio de relaciones 1:N, N:M y 1:1 en EF Core y el manejo de arquitectura por capas (Controller ➜ Service ➜ Repository ➜ DbContext) implementando endpoints clave para un mini‑sistema de festival de música.
 
