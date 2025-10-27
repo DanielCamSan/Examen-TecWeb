@@ -17,13 +17,27 @@ namespace TecWebFest.Api.Data
             base.OnModelCreating(modelBuilder);
             //TODO
 
-            // 1:N Festival -> Stages (FK requerida, cascade)
-          
+            modelBuilder.Entity<Festival>()
+                .HasMany(f => f.Stages)
+                .WithOne(s => s.Festival)
+                .HasForeignKey(s => s.FestivalId)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<Performance>()
+                .HasKey(p => new { p.ArtistId, p.StageId });
+            modelBuilder.Entity<Stage>()
+                    .HasIndex(s => new { s.FestivalId, s.Name })
+                    .IsUnique();
 
-            // N:M con payload: Performance (clave compuesta)
-          
-            //Índice único: Stage.Name dentro de un Festival
-            
-        }
+
+                // 1:N Festival -> Stages (FK requerida, cascade)
+
+
+
+                // N:M con payload: Performance (clave compuesta)
+
+                //Índice único: Stage.Name dentro de un Festival
+
+            }
     }
 }
