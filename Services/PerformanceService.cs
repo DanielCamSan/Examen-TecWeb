@@ -24,21 +24,28 @@ namespace TecWebFest.Api.Services
 
         public async Task AddPerformanceAsync(CreatePerformanceDto dto)
         {
-            // PISTA TE PASO COMO EXTRAER START TIME Y END TIME EN FORMATO UTC
-            //var startUtc = dto.StartTime.Kind == DateTimeKind.Unspecified
-            //    ? DateTime.SpecifyKind(dto.StartTime, DateTimeKind.Utc)
-            //    : dto.StartTime.ToUniversalTime();
+            if (dto.EndTime <= dto.StartTime)
+                throw new Exception("EndTime must be after StartTime.");
 
-            //var endUtc = dto.EndTime.Kind == DateTimeKind.Unspecified
-            //    ? DateTime.SpecifyKind(dto.EndTime, DateTimeKind.Utc)
-            //    : dto.EndTime.ToUniversalTime();
+            var artistExists = await _artists.ExistsAsync(dto.ArtistId);
+            var stageExists = await _stages.ExistsAsync(dto.StageId);
+            if (!artistExists || !stageExists)
+                throw new Exception("Artist or Stage not found.");
 
-            // TODO VERIFICAR QUE EXISTA ARTISTA, STAGES Y QUE LA FECHA DE FIN SEA MAYOR QUE LA DEL INICIO
+            var overlap = await _performances.HasOverlapAsync(dto.StageId, dto.StartTime, dto.EndTime);
+            if (overlap)
+                throw new Exception("The stage already has a performance in this time range.");
 
+            var performance = new Performance
+            {
+                ArtistId = dto.ArtistId,
+                StageId = dto.StageId,
+                StartTime = dto.StartTime,
+                EndTime = dto.EndTime
+            };
 
-            // TODO VERIFICAR QUE NO HAYA SOLAPAMIENTO ENTRE PERFEROMANCES VER QUE EL STAGE ESTE LIBRE.
-           
-            // ANADIR EL PERFORMANCE
+            await _performances.AddAsync(performance);
+            await _performances.SaveChangesAsync();
         }
     }
 }
