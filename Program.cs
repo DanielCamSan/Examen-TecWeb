@@ -17,8 +17,8 @@ builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
-//builder.Services.AddDbContext<AppDbContext>(options =>
- //   options.UseInMemoryDatabase("TecWebFestDb"));
+builder.Services.AddDbContext<AppDbContext>(options =>
+ options.UseInMemoryDatabase("TecWebFestDb"));
 
 builder.Services.AddScoped<IFestivalRepository, FestivalRepository>();
 builder.Services.AddScoped<IArtistRepository, ArtistRepository>();
