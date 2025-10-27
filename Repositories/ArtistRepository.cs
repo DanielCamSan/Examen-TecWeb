@@ -8,6 +8,7 @@ namespace TecWebFest.Api.Repositories
     public class ArtistRepository : IArtistRepository
     {
         // TODO INYECCION 
+        public AppDbContext _ctx;
         public ArtistRepository(AppDbContext ctx) => _ctx = ctx;
 
         public Task<int> SaveChangesAsync() => _ctx.SaveChangesAsync();

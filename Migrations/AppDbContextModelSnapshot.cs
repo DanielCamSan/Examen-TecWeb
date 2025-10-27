@@ -108,7 +108,9 @@ namespace TecWebFest.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("FestivalId", "Name")
+                    b.HasIndex("FestivalId");
+
+                    b.HasIndex("Name", "FestivalId")
                         .IsUnique();
 
                     b.ToTable("Stages");

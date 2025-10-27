@@ -94,9 +94,14 @@ namespace TecWebFest.Migrations
                 column: "StageId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Stages_FestivalId_Name",
+                name: "IX_Stages_FestivalId",
                 table: "Stages",
-                columns: new[] { "FestivalId", "Name" },
+                column: "FestivalId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Stages_Name_FestivalId",
+                table: "Stages",
+                columns: new[] { "Name", "FestivalId" },
                 unique: true);
         }
 

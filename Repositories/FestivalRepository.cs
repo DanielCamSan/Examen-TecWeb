@@ -8,6 +8,9 @@ namespace TecWebFest.Api.Repositories
     public class FestivalRepository : IFestivalRepository
     {
         // TODO INYECCION 
+        public AppDbContext _ctx;
+
+        public FestivalRepository(AppDbContext ctx) => _ctx = ctx;
 
         public async Task AddAsync(Festival festival)
         {

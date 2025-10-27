@@ -28,6 +28,7 @@ namespace TecWebFest.Api.Controllers
         public async Task<IActionResult> GetLineup([FromRoute] int id)
         {
             var data = await _service.GetLineupAsync(id);
+
             if (data == null) return NotFound();
             return Ok(data);
         }

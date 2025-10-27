@@ -12,7 +12,7 @@ using TecWebFest.Api.Data;
 namespace TecWebFest.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20251027222457_Initial")]
+    [Migration("20251027211602_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -111,7 +111,9 @@ namespace TecWebFest.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("FestivalId", "Name")
+                    b.HasIndex("FestivalId");
+
+                    b.HasIndex("Name", "FestivalId")
                         .IsUnique();
 
                     b.ToTable("Stages");
