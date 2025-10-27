@@ -15,7 +15,6 @@ namespace TecWebFest.Api.Controllers
             _service = service;
         }
 
-        // POST: api/v1/festivals
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateFestivalDto dto)
         {
@@ -23,7 +22,6 @@ namespace TecWebFest.Api.Controllers
             return CreatedAtAction(nameof(GetLineup), new { id }, new { id });
         }
 
-        // GET: api/v1/festivals/{id}/lineup
         [HttpGet("{id:int}/lineup")]
         public async Task<IActionResult> GetLineup([FromRoute] int id)
         {
