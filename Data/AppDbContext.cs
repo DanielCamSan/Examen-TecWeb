@@ -26,7 +26,17 @@ namespace TecWebFest.Api.Data
                 .OnDelete(DeleteBehavior.Cascade);
 
             // N:M con payload: Performance (clave compuesta)
-          
+            modelBuilder.Entity<Performance>()
+                .HasKey(p => new { p.ArtistId, p.StageId, p.StartTime});
+            modelBuilder.Entity<Performance>()
+                .HasOne(p => p.Artist)
+                .WithMany(a => a.Performances)
+                .HasForeignKey(p => p.ArtistId);
+            modelBuilder.Entity<Performance>()
+                .HasOne(p => p.Stage)
+                .WithMany(s => s.Performances)
+                .HasForeignKey(p => p.StageId);
+
             //Índice único: Stage.Name dentro de un Festival
             
         }
