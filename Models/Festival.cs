@@ -9,6 +9,9 @@ namespace TecWebFest.Api.Entities
         public string City { get; set; } = default!;
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
-        //TODO relacion con stage
+
+        //1 -> N
+
+        public ICollection<Stage> stages { get; set; } = new List<Stage>();
     }
 }

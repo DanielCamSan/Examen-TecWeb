@@ -11,5 +11,7 @@ namespace TecWebFest.Api.Entities
 
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
+
+       
     }
 }

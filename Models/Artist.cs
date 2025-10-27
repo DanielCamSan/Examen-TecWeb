@@ -10,5 +10,7 @@ namespace TecWebFest.Api.Entities
 
         // N:M via Performance
         public ICollection<Performance> Performances { get; set; } = new List<Performance>();
+
+
     }
 }
