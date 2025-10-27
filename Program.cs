@@ -18,6 +18,19 @@ builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 
 //TODO INYECCION DE DEPENDENCIAS
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseNpgsql(builder.Configuration.GetConnectionString("Default")));
+
+
+builder.Services.AddScoped<IArtistRepository, ArtistRepository>();
+builder.Services.AddScoped<IFestivalRepository, FestivalRepository>();
+builder.Services.AddScoped<IPerformanceRepository, PerformanceRepository>();
+builder.Services.AddScoped<IStageRepository, StageRepository>();
+
+// Services
+builder.Services.AddScoped<IArtistService, ArtistService>();
+builder.Services.AddScoped<IFestivalService, FestivalService>();
+builder.Services.AddScoped<IPerformanceService, PerformanceService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
