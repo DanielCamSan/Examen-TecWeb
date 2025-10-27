@@ -17,7 +17,7 @@ namespace TecWebFest.Api.Repositories
         public Task<Festival?> GetLineupAsync(int id)
         {
             return _ctx.Festivals
-                .Include(f => f.Stages)
+                .Include(f => f.Stages) // <-- Este era el que daba error
                     .ThenInclude(s => s.Performances)
                         .ThenInclude(p => p.Artist)
                 .FirstOrDefaultAsync(f => f.Id == id);
