@@ -18,6 +18,17 @@ namespace TecWebFest.Api.Services
         {
             //TODO
             //pista para importar stages: Stages = dto.Stages.Select(s => new Stage { Name = s.Name }).ToList()
+            var festival = new Festival
+            {
+                Name = dto.Name,
+                City = dto.City,
+                StartDate = dto.StartDate,
+                EndDate = dto.EndDate,
+                Stages = dto.Stages.Select(s => new Stage { Name = s.Name }).ToList()
+            };
+            await _repo.AddAsync(festival);
+            await _repo.SaveChangesAsync();
+            return festival.Id;
         }
 
 
