@@ -7,7 +7,8 @@ namespace TecWebFest.Api.Repositories
 {
     public class ArtistRepository : IArtistRepository
     {
-        // TODO INYECCION 
+        private readonly AppDbContext _ctx;
+
         public ArtistRepository(AppDbContext ctx) => _ctx = ctx;
 
         public Task<int> SaveChangesAsync() => _ctx.SaveChangesAsync();
@@ -24,8 +25,8 @@ namespace TecWebFest.Api.Repositories
                     .ThenInclude(p => p.Stage)
                 .FirstOrDefaultAsync(a => a.Id == id);
         }
-        public Task<bool> ExistsAsync(int id) =>
-        _ctx.Artists.AnyAsync(a => a.Id == id);
 
+        public Task<bool> ExistsAsync(int id) =>
+            _ctx.Artists.AnyAsync(a => a.Id == id);
     }
 }
