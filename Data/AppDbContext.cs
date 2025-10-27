@@ -18,12 +18,28 @@ namespace TecWebFest.Api.Data
             //TODO
 
             // 1:N Festival -> Stages (FK requerida, cascade)
-          
+            /* a.HasKey(x => x.id);
+                  a.Property(x => x.id).ValueGeneratedNever();
+                  a.Property(x => x.name).IsRequired().HasMaxLength(200);
+                  a.HasMany(a => a.Books)
+                       .WithOne(b => b.Author)
+                       .HasForeignKey(b => b.AuthorId)
+                       .OnDelete(DeleteBehavior.Restrict);
+            
+             
+              modelBuilder.Entity<Book>(b =>
+            {
+                b.HasKey(x => x.Id);
+                b.Property(x => x.Title).IsRequired().HasMaxLength(200);
+                b.Property(x => x.Year).IsRequired();
+                b.HasIndex(x => x.AuthorId);
+            });*/
+
 
             // N:M con payload: Performance (clave compuesta)
-          
+
             //Índice único: Stage.Name dentro de un Festival
-            
+
         }
     }
 }
