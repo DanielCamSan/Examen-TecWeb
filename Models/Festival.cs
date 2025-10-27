@@ -9,6 +9,11 @@ namespace TecWebFest.Api.Entities
         public string City { get; set; } = default!;
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
+
         //TODO relacion con stage
+       public ICollection<Stage> Stages { get; set; } = new List<Stage>();
+
+        //EL QUE ES N TIENE LA FK DEL OTRO
+        //EL QUE ES 1 TIENE EL ICOLLECTION
     }
 }
