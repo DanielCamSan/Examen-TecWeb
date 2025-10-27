@@ -12,3 +12,4 @@ namespace TecWebFest.Api.Entities
         public ICollection<Performance> Performances { get; set; } = new List<Performance>();
     }
 }
+
