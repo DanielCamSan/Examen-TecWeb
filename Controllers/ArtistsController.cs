@@ -20,7 +20,7 @@ namespace TecWebFest.Api.Controllers
         [HttpGet("{id:int}/schedule")]
         public async Task<IActionResult> GetSchedule(int id)
         {
-           //TODO CON MANEJO DE ERROR SI NO EXISTE EL ARTISTA
+           //TODO CON MANEJO DE ERROR SI NO EXISTE EL ARTIST
         }
 
         // POST: api/v1/artists/performances
