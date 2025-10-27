@@ -22,7 +22,7 @@ namespace TecWebFest.Api.Data
                 b.Property(f => f.Name);
                 b.Property(f => f.StartDate);
                 b.Property(f => f.EndDate);
-                b.HasMany(f => f.stages)
+                b.HasMany(f => f.Stages)
                 .WithOne(f => f.Festival)
                 .HasForeignKey(f => f.FestivalId)
                 .OnDelete(DeleteBehavior.Cascade);

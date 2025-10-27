@@ -12,6 +12,6 @@ namespace TecWebFest.Api.Entities
 
         //1 -> N
 
-        public ICollection<Stage> stages { get; set; } = new List<Stage>();
+        public ICollection<Stage> Stages { get; set; } = new List<Stage>();
     }
 }
