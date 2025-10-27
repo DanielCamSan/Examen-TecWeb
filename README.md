@@ -47,6 +47,8 @@ POST api/v1/festivals
 ```
 
 
+
+
 ### 🎤 2. Crear un Artista
 
 POST api/v1/artists
