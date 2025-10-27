@@ -7,6 +7,11 @@ namespace TecWebFest.Repositories
     public class PerformanceRepository : IPerformanceRepository
     {
         // TODO INYECCION 
+        private readonly AppDbContext _ctx;
+        public PerformanceRepository(AppDbContext context)
+        {
+            _ctx = context;
+        }
 
         public async Task AddAsync(Performance performance)
         {

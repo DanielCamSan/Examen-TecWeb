@@ -15,7 +15,7 @@ namespace TecWebFest.Api.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            modelBuilder.Entity<Festival>(b =>
+            modelBuilder.Entity<Festival>(static b =>
             {
                 b.HasKey(x => x.Id);
                 b.Property(x => x.Name);
@@ -25,8 +25,8 @@ namespace TecWebFest.Api.Data
 
                 b.HasMany(p => p.Stages)
                     .WithMany(o => o.Performances)
-                    .HasForeignKey(a => a.OwnerId)
-                    .OnDelete(DeleteBehavior.Restrict);
+                    .HasForeignKey(o => o.Id)
+                    .OnDelete(DeleteBehavior.Cascade);
             });
             //TODO
 
