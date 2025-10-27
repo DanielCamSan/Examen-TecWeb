@@ -7,8 +7,6 @@ namespace TecWebFest.Api.Entities
         public int Id { get; set; }
         public string StageName { get; set; } = default!;
         public string Genre { get; set; } = default!;
-
-        // N:M via Performance
         public ICollection<Performance> Performances { get; set; } = new List<Performance>();
     }
 }
