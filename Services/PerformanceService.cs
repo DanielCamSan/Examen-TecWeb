@@ -39,6 +39,27 @@ namespace TecWebFest.Api.Services
             // TODO VERIFICAR QUE NO HAYA SOLAPAMIENTO ENTRE PERFEROMANCES VER QUE EL STAGE ESTE LIBRE.
            
             // ANADIR EL PERFORMANCE
+            var artist = await _artists.GetByIdAsync(dto.ArtistId);
+            if (artist == null)
+            {
+                throw new ArgumentException("Artist does not exist.");
+            }
+            var stage = await _stages.ExistsAsync(dto.StageId);
+            if(stage != true)
+            {
+               throw new ArgumentException("Stage does not exist.");
+            }
+
+            var performance = new Performance
+            {
+                ArtistId = dto.ArtistId,
+                StageId = dto.StageId,
+                StartTime = dto.StartTime,
+                EndTime = dto.EndTime
+            };
+
+            await _performances.AddAsync(performance);
+            await _performances.SaveChangesAsync();
         }
     }
 }
