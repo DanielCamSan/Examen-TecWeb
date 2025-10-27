@@ -17,7 +17,18 @@ builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
-//TODO INYECCION DE DEPENDENCIAS
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseInMemoryDatabase("TecWebFestDb"));
+
+builder.Services.AddScoped<IFestivalRepository, FestivalRepository>();
+builder.Services.AddScoped<IArtistRepository, ArtistRepository>();
+builder.Services.AddScoped<IStageRepository, StageRepository>();
+builder.Services.AddScoped<IPerformanceRepository, PerformanceRepository>();
+
+builder.Services.AddScoped<IFestivalService, FestivalService>();
+builder.Services.AddScoped<IArtistService, ArtistService>();
+builder.Services.AddScoped<IPerformanceService, PerformanceService>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
