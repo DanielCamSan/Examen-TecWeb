@@ -27,7 +27,7 @@ Este starter incluye la solución con:
 4. **Arquitectura por capas:**
    - No acceder al `DbContext` desde los controllers: usa Services y Repositories (ya están registrados).
    - Mantén DTOs en la capa DTOs, mapea en Services.
-5. **Manejo de errores / validaciones** (+5 extra).
+5. **Manejo de errores / validaciones**.
 ## Cómo evaluar y probar
 ### ✅ 1. Crear un Festival con Stages (1:N)
 
