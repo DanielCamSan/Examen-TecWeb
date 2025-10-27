@@ -24,21 +24,35 @@ namespace TecWebFest.Api.Services
 
         public async Task AddPerformanceAsync(CreatePerformanceDto dto)
         {
+
             // PISTA TE PASO COMO EXTRAER START TIME Y END TIME EN FORMATO UTC
-            //var startUtc = dto.StartTime.Kind == DateTimeKind.Unspecified
-            //    ? DateTime.SpecifyKind(dto.StartTime, DateTimeKind.Utc)
-            //    : dto.StartTime.ToUniversalTime();
+            var startUtc = dto.StartTime.Kind == DateTimeKind.Unspecified
+               ? DateTime.SpecifyKind(dto.StartTime, DateTimeKind.Utc)
+               : dto.StartTime.ToUniversalTime();
 
-            //var endUtc = dto.EndTime.Kind == DateTimeKind.Unspecified
-            //    ? DateTime.SpecifyKind(dto.EndTime, DateTimeKind.Utc)
-            //    : dto.EndTime.ToUniversalTime();
+           var endUtc = dto.EndTime.Kind == DateTimeKind.Unspecified
+               ? DateTime.SpecifyKind(dto.EndTime, DateTimeKind.Utc)
+               : dto.EndTime.ToUniversalTime();
+            var artist = await _artists.ExistsAsync(dto.ArtistId);
+            var stage = await _stages.ExistsAsync(dto.StageId);
+            if(!artist) throw new Exception("Artist doesnt exist");
+            if(!stage) throw new Exception("Stage doesnt exist");
+            if (endUtc <= startUtc) throw new Exception("End time must be greater than star time");
+            var aviable =await _performances.HasOverlapAsync(dto.StageId, startUtc, endUtc);
+            if (!aviable)
+            {
+                throw new Exception("The stage is not available in the given time range");
+            }
+            var performance= new Performance
+            {
+                ArtistId = dto.ArtistId,
+                StageId = dto.StageId,
+                StartTime = startUtc,
+                EndTime = endUtc
+            };
+            await _performances.AddAsync(performance);
+            await _performances.SaveChangesAsync();
 
-            // TODO VERIFICAR QUE EXISTA ARTISTA, STAGES Y QUE LA FECHA DE FIN SEA MAYOR QUE LA DEL INICIO
-
-
-            // TODO VERIFICAR QUE NO HAYA SOLAPAMIENTO ENTRE PERFEROMANCES VER QUE EL STAGE ESTE LIBRE.
-           
-            // ANADIR EL PERFORMANCE
         }
     }
 }

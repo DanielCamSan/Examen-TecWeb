@@ -9,8 +9,6 @@ namespace TecWebFest.Api.DTOs
         [Required] public string City { get; set; } = default!;
         [Required] public DateTime StartDate { get; set; }
         [Required] public DateTime EndDate { get; set; }
-
-        // Optional: create stages along with festival
         public List<CreateStageDto> Stages { get; set; } = new();
     }
 

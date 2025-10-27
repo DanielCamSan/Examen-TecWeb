@@ -9,18 +9,28 @@ namespace TecWebFest.Api.Controllers
     public class ArtistsController : ControllerBase
     {
         //TODO INEYECCION DE DEPENDENCIAS - PISTA NECESITAS 2 INYECCIONES ARTIST Y PERFORMANCE
-        // POST: api/v1/artists
+        // POST: api/v1/artist
+        private readonly IArtistService _artistService;
+        private readonly IPerformanceService _performance;
+
+        public ArtistsController(IArtistService artistService, IPerformanceService performance)
+        {
+            _artistService = artistService;
+            _performance = performance;
+        }
+
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateArtistDto dto)
         {
-            //TODO
+            return Ok(await _artistService.CreateAsync(dto));
         }
 
         // GET: api/v1/artists/{id}/schedule
         [HttpGet("{id:int}/schedule")]
         public async Task<IActionResult> GetSchedule(int id)
         {
-           //TODO CON MANEJO DE ERROR SI NO EXISTE EL ARTISTA
+            var data = await _artistService.GetScheduleAsync(id);
+            return data is null ?NotFound():Ok();
         }
 
         // POST: api/v1/artists/performances

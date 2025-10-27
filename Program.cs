@@ -10,6 +10,17 @@ using TecWebFest.Api.Services.Interfaces;
 // OJO: algunos repos tuyos están en TecWebFest.Repositories
 using TecWebFest.Repositories;
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddScoped<IArtistService,ArtistService>();
+builder.Services.AddScoped<IFestivalService, FestivalService>();
+builder.Services.AddScoped<IPerformanceService, PerformanceService>();
+builder.Services.AddScoped<IArtistRepository, ArtistRepository>();
+builder.Services.AddScoped<IFestivalRepository, FestivalRepository>();
+builder.Services.AddScoped<IPerformanceRepository, PerformanceRepository>();
+builder.Services.AddScoped<IStageRepository, StageRepository>();
+builder.Services.AddDbContext<AppDbContext>(opt =>
+{
+    opt.UseNpgsql(builder.Configuration.GetConnectionString("Default"));
+});
 
 // Add services to the container.
 
