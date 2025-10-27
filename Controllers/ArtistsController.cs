@@ -9,6 +9,13 @@ namespace TecWebFest.Api.Controllers
     public class ArtistsController : ControllerBase
     {
         //TODO INEYECCION DE DEPENDENCIAS - PISTA NECESITAS 2 INYECCIONES ARTIST Y PERFORMANCE
+        private readonly IArtistService _artist; 
+        private readonly IPerformanceService _performance;
+        public ArtistsController(IArtistService artistService, IPerformanceService performanceService)
+        {
+            _artist = artistService;
+            _performance = performanceService;
+        }
         // POST: api/v1/artists
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateArtistDto dto)

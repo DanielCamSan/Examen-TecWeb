@@ -8,6 +8,11 @@ namespace TecWebFest.Api.Services
     public class FestivalService : IFestivalService
     {
         //TODO INEYECCION DE DEPENDENCIAS
+        private readonly IFestivalRepository _festivalRepository;
+        public FestivalService(IFestivalRepository festivalRepository)
+        {
+            _festivalRepository = festivalRepository;
+        }
 
         public async Task<int> CreateFestivalAsync(CreateFestivalDto dto)
         {
