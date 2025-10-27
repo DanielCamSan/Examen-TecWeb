@@ -30,7 +30,27 @@ namespace TecWebFest.Api.Services
 
         public async Task<FestivalLineupDto?> GetLineupAsync(int id)
         {
-          //TODO
+            //TODO
+            var festival = await _festivals.GetLineupAsync(id);
+            if (festival == null) return null;
+
+            return new FestivalLineupDto
+            {
+                Festival = festival.Name,
+                City = festival.City,
+                Stages = festival.Stages
+                    .OrderBy(p => p.Name)
+                    .Select(p => new Stage
+                    {
+                        Id = festival.Id,
+                        Name = festival.Name,
+                        FestivalId = p.FestivalId,
+                        Festival = p.Festival,
+                        Performances = p.Performances.OrderBy(x => x.StartTime).Select(x => new PerformanceDto){
+
+                        }
+                    }).ToList()
+            };
+           
         }
-    }
 }
