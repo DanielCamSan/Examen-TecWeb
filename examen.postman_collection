@@ -1,0 +1,317 @@
+{
+	"info": {
+		"_postman_id": "0a2b1550-ea80-4a1a-bc6a-43107f2e6e4e",
+		"name": "TecWebFest – Exam Flow",
+		"description": "Colección de pruebas para el examen TecWebFest (relaciones 1:N, N:M, 1:1 y capas).",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "9796556"
+	},
+	"item": [
+		{
+			"name": "01. Crear Festival con Stages (1:N)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('Status 201 Created', function () { pm.response.to.have.status(201); });",
+							"pm.test('Devuelve id', function(){ var json = pm.response.json(); pm.expect(json).to.have.property('id'); });",
+							"pm.collectionVariables.set('festivalId', pm.response.json().id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"name\": \"TecWebFest 2025\",\n  \"city\": \"Cochabamba\",\n  \"startDate\": \"2025-07-01\",\n  \"endDate\": \"2025-07-03\",\n  \"stages\": [\n    {\n      \"name\": \"Main Stage\"\n    },\n    {\n      \"name\": \"Electro Dome\"\n    }\n  ]\n}"
+				},
+				"url": {
+					"raw": "{{baseUrl}}/api/v1/festivals",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"festivals"
+					]
+				},
+				"description": "Debe devolver 201 y un objeto con { id }."
+			},
+			"response": []
+		},
+		{
+			"name": "02. Crear Artista #1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('Status 201', function () { pm.response.to.have.status(201); });",
+							"pm.collectionVariables.set('artist1Id', pm.response.json().id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"stageName\": \"DJ Infinity\",\n  \"genre\": \"Electronic\"\n}"
+				},
+				"url": {
+					"raw": "{{baseUrl}}/api/v1/artists",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"artists"
+					]
+				},
+				"description": "Crea el primer artista. Respuesta 201 con { id }."
+			},
+			"response": []
+		},
+		{
+			"name": "03. Crear Artista #2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('Status 201', function () { pm.response.to.have.status(201); });",
+							"pm.collectionVariables.set('artist2Id', pm.response.json().id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"stageName\": \"Rock Masters\",\n  \"genre\": \"Rock\"\n}"
+				},
+				"url": {
+					"raw": "{{baseUrl}}/api/v1/artists",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"artists"
+					]
+				},
+				"description": "Crea el segundo artista. Respuesta 201 con { id }."
+			},
+			"response": []
+		},
+		{
+			"name": "04. Asignar Performance (N:M con payload)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('Status 200 OK', function(){ pm.response.to.have.status(200); });"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"artistId\": \"1\",\n  \"stageId\": 1,\n  \"startTime\": \"2025-07-01T20:00:00\",\n  \"endTime\": \"2025-07-01T21:30:00\"\n}"
+				},
+				"url": {
+					"raw": "{{baseUrl}}/api/v1/artists/performances",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"artists",
+						"performances"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "05. Consultar Lineup del Festival",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('Status 200 OK', function(){ pm.response.to.have.status(200); });",
+							"const json = pm.response.json();",
+							"pm.test('Tiene stages', function(){ pm.expect(json.stages).to.be.an('array').that.is.not.empty; });"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/api/v1/festivals/{{festivalId}}/lineup",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"festivals",
+						"{{festivalId}}",
+						"lineup"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "06. Ver Agenda de Artista",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('Status 200 OK', function(){ pm.response.to.have.status(200); });",
+							"const json = pm.response.json();",
+							"pm.test('Incluye Slots', function(){ pm.expect(json.slots).to.be.an('array'); });"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/api/v1/artists/{{artist1Id}}/schedule",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"artists",
+						"{{artist1Id}}",
+						"schedule"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "07. BONUS – Intentar solapamiento (debe fallar si validan)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('Si validan, debería ser 400 o 409', function(){ pm.expect([400,409,200]).to.include(pm.response.code); });"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"artistId\": \"{{artist2Id}}\",\n  \"stageId\": 1,\n  \"startTime\": \"2025-07-01T20:30:00\",\n  \"endTime\": \"2025-07-01T21:00:00\"\n}"
+				},
+				"url": {
+					"raw": "{{baseUrl}}/api/v1/artists/performances",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"artists",
+						"performances"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:5000",
+			"type": "string"
+		},
+		{
+			"key": "festivalId",
+			"value": "1",
+			"type": "string"
+		},
+		{
+			"key": "artist1Id",
+			"value": "1",
+			"type": "string"
+		},
+		{
+			"key": "artist2Id",
+			"value": "2",
+			"type": "string"
+		},
+		{
+			"key": "attendeeId",
+			"value": "1",
+			"type": "string"
+		},
+		{
+			"key": "ticketId",
+			"value": "1",
+			"type": "string"
+		}
+	]
+}
