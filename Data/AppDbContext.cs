@@ -19,7 +19,14 @@ namespace TecWebFest.Api.Data
             {
                 b.HasKey(x => x.Id);
                 b.Property(x => x.Name);
-                b.Property(x => x.Age);
+                b.Property(x => x.City);
+                b.Property(x => x.StartDate);
+                b.Property(x => x.EndDate);
+
+                b.HasMany(p => p.Stages)
+                    .WithMany(o => o.Performances)
+                    .HasForeignKey(a => a.OwnerId)
+                    .OnDelete(DeleteBehavior.Restrict);
             });
             //TODO
 
