@@ -21,8 +21,8 @@ namespace TecWebFest.Api.Services
 
                 Name= dto.Name,
                 City= dto.City,
-                StartDate= dto.StartDate,
-                EndDate= dto.EndDate,
+                StartDate= dto.StartDate.ToUniversalTime(),
+                EndDate= dto.EndDate.ToUniversalTime(),
                 Stages= dto.Stages.Select(s => new Stage { Name = s.Name }).ToList()
             };
             await _festivals.AddAsync(festival);

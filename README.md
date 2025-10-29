@@ -120,6 +120,7 @@ Respuesta esperada:
 ```
 {
   "error": "The stage already has a performance in this time range."
+
 }
 ```
 

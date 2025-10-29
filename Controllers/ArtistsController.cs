@@ -30,7 +30,7 @@ namespace TecWebFest.Api.Controllers
         public async Task<IActionResult> GetSchedule(int id)
         {
             var data = await _artistService.GetScheduleAsync(id);
-            return data is null ?NotFound():Ok();
+            return data is null ?NotFound():Ok(data);
         }
 
         // POST: api/v1/artists/performances

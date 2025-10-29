@@ -1,3 +1,4 @@
+using System;
 using TecWebFest.Api.DTOs;
 using TecWebFest.Api.Entities;
 using TecWebFest.Api.Repositories.Interfaces;
@@ -39,11 +40,12 @@ namespace TecWebFest.Api.Services
             if(!stage) throw new Exception("Stage doesnt exist");
             if (endUtc <= startUtc) throw new Exception("End time must be greater than star time");
             var aviable =await _performances.HasOverlapAsync(dto.StageId, startUtc, endUtc);
-            if (!aviable)
+            if (aviable)
             {
-                throw new Exception("The stage is not available in the given time range");
+                throw new BadHttpRequestException("The stage already has a performance in this time range.")
             }
-            var performance= new Performance
+
+            var performance = new Performance
             {
                 ArtistId = dto.ArtistId,
                 StageId = dto.StageId,

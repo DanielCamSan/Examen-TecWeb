@@ -12,8 +12,8 @@ using TecWebFest.Api.Data;
 namespace TecWebFest.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20251027211629_NewMigration")]
-    partial class NewMigration
+    [Migration("20251029144314_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

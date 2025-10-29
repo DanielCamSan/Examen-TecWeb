@@ -20,11 +20,7 @@ namespace TecWebFest.Api.Data
                 f.Property(f => f.Name).IsRequired().HasMaxLength(100);
                 f.HasMany(f => f.Stages).WithOne(s => s.Festival).HasForeignKey(s => s.FestivalId).OnDelete(DeleteBehavior.Cascade);
             });
-            modelBuilder.Entity<Performance>(p =>
-            {
-                p.HasKey(p => new { p.ArtistId, p.StageId });
 
-            });
 
             modelBuilder.Entity<Stage>(s => {                 
                 s.HasKey(s => s.Id);
@@ -37,6 +33,21 @@ namespace TecWebFest.Api.Data
                 a.HasKey(a => a.Id);
                 a.Property(a => a.StageName).IsRequired().HasMaxLength(100);
                 a.Property(a => a.Genre).IsRequired().HasMaxLength(50);
+            });
+
+            modelBuilder.Entity<Performance>(p =>
+            {
+                p.HasKey(p => new { p.ArtistId, p.StageId });
+                p.Property(p => p.StartTime).IsRequired();
+                p.Property(p => p.EndTime).IsRequired();
+                p.HasOne(p => p.Artist)
+                 .WithMany(a => a.Performances)
+                 .HasForeignKey(p => p.ArtistId)
+                 .OnDelete(DeleteBehavior.Cascade);
+                p.HasOne(p => p.Stage)
+                 .WithMany(s => s.Performances)
+                 .HasForeignKey(p => p.StageId)
+                 .OnDelete(DeleteBehavior.Cascade);
             });
             //TODO
 

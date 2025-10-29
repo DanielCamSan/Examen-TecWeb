@@ -7,7 +7,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace TecWebFest.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -18,8 +18,8 @@ namespace TecWebFest.Migrations
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    StageName = table.Column<string>(type: "text", nullable: false),
-                    Genre = table.Column<string>(type: "text", nullable: false)
+                    StageName = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
+                    Genre = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -32,7 +32,7 @@ namespace TecWebFest.Migrations
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Name = table.Column<string>(type: "text", nullable: false),
+                    Name = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     City = table.Column<string>(type: "text", nullable: false),
                     StartDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     EndDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
@@ -48,7 +48,7 @@ namespace TecWebFest.Migrations
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Name = table.Column<string>(type: "text", nullable: false),
+                    Name = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     FestivalId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
@@ -73,7 +73,7 @@ namespace TecWebFest.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Performances", x => new { x.ArtistId, x.StageId, x.StartTime });
+                    table.PrimaryKey("PK_Performances", x => new { x.ArtistId, x.StageId });
                     table.ForeignKey(
                         name: "FK_Performances_Artists_ArtistId",
                         column: x => x.ArtistId,
