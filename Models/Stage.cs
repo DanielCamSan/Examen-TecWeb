@@ -8,7 +8,7 @@ namespace TecWebFest.Api.Entities
         public string Name { get; set; } = default!;
 
         public int FestivalId { get; set; }
-        public Festival Festival { get; set; } = default!;
+        public Festival Festival { get; set; } = default!; 
 
         // N:M Artists via Performance
         public ICollection<Performance> Performances { get; set; } = new List<Performance>();

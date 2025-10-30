@@ -7,13 +7,15 @@ namespace TecWebFest.Api.Repositories
 {
     public class ArtistRepository : IArtistRepository
     {
-        // TODO INYECCION 
+        // TODO INYECCION : HECHO
+        private readonly AppDbContext _ctx;
         public ArtistRepository(AppDbContext ctx) => _ctx = ctx;
 
         public Task<int> SaveChangesAsync() => _ctx.SaveChangesAsync();
 
         public async Task AddAsync(Artist artist)
         {
+            
             await _ctx.Artists.AddAsync(artist);
         }
 
