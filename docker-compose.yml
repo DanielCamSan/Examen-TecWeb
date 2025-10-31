@@ -1,7 +1,7 @@
 services:
   db:
     image: postgres:16
-    container_name: vet_pg
+    container_name: vet_pg_simulacro
     restart: unless-stopped
     environment:
       POSTGRES_DB: vetdb

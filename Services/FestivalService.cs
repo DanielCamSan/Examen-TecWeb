@@ -16,14 +16,20 @@ namespace TecWebFest.Api.Services
         }
         public async Task<int> CreateFestivalAsync(CreateFestivalDto dto)
         {
+            var startUtc = dto.StartDate.Kind == DateTimeKind.Unspecified
+                ? DateTime.SpecifyKind(dto.StartDate, DateTimeKind.Utc)
+                : dto.StartDate.ToUniversalTime();
+            var endUtc = dto.EndDate.Kind == DateTimeKind.Unspecified
+                ? DateTime.SpecifyKind(dto.EndDate, DateTimeKind.Utc)
+                : dto.EndDate.ToUniversalTime();
             //TODO: HECHO
             //pista para importar stages: Stages = dto.Stages.Select(s => new Stage { Name = s.Name }).ToList()
             var fest = new Festival
             {
                 Name = dto.Name,
                 City = dto.City,
-                StartDate = dto.StartDate,
-                EndDate = dto.EndDate,
+                StartDate = startUtc,
+                EndDate = endUtc,
                 Stages = dto.Stages.Select(s => new Stage { Name = s.Name }).ToList()
             };
             await _repository.AddAsync(fest);

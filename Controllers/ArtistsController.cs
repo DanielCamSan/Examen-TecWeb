@@ -43,8 +43,16 @@ namespace TecWebFest.Api.Controllers
         [HttpPost("performances")]
         public async Task<IActionResult> AddPerformance([FromBody] CreatePerformanceDto dto)
         {
-            await _performance.AddPerformanceAsync(dto);
-            return Ok();
+            try
+            {
+                await _performance.AddPerformanceAsync(dto);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { error = ex.Message });
+            }
+
         }
     }
 }
