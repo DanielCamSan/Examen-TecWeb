@@ -7,18 +7,59 @@ namespace TecWebFest.Api.Services
 {
     public class FestivalService : IFestivalService
     {
-        //TODO INEYECCION DE DEPENDENCIAS
+        private readonly IFestivalRepository _festivals;
+        public FestivalService(IFestivalRepository festivals)
+        {
+            _festivals = festivals;
+        }
 
         public async Task<int> CreateFestivalAsync(CreateFestivalDto dto)
         {
             //TODO
             //pista para importar stages: Stages = dto.Stages.Select(s => new Stage { Name = s.Name }).ToList()
+            var entity = new Festival
+            {
+                Name = dto.Name,
+                City = dto.City,
+                StartDate = dto.StartDate,
+                EndDate = dto.EndDate,
+                Stages = dto.Stages.Select(s => new Stage { Name = s.Name }).ToList()
+            };
+            await _festivals.AddAsync(entity);
+            await _festivals.SaveChangesAsync();
+            return entity.Id;
         }
 
 
         public async Task<FestivalLineupDto?> GetLineupAsync(int id)
         {
           //TODO
+            var fest = await _festivals.GetLineupAsync(id);
+            if (fest == null) return null;
+            return new FestivalLineupDto
+            {
+                Festival = fest.Name,
+                City = fest.City,
+                Stages = fest.Stages
+                 .OrderBy(s => s.Name)
+                 .Select(s => new StageScheduleDto
+                 {
+                     Stage = s.Name,
+                     Performances = s.Performances
+                         .OrderBy(p => p.StartTime)
+                         .Select(p => new PerformanceDto
+                         {
+                             ArtistId = p.ArtistId,
+                             Artist = p.Artist.StageName,
+                             StageId = p.StageId,
+                             Stage = s.Name,
+                             StartTime = p.StartTime,
+                             EndTime = p.EndTime
+                         }).ToList()
+                 }).ToList()
+            };
         }
     }
 }
+    
+

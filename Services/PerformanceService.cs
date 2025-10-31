@@ -24,21 +24,42 @@ namespace TecWebFest.Api.Services
 
         public async Task AddPerformanceAsync(CreatePerformanceDto dto)
         {
-            // PISTA TE PASO COMO EXTRAER START TIME Y END TIME EN FORMATO UTC
-            //var startUtc = dto.StartTime.Kind == DateTimeKind.Unspecified
-            //    ? DateTime.SpecifyKind(dto.StartTime, DateTimeKind.Utc)
-            //    : dto.StartTime.ToUniversalTime();
-
-            //var endUtc = dto.EndTime.Kind == DateTimeKind.Unspecified
-            //    ? DateTime.SpecifyKind(dto.EndTime, DateTimeKind.Utc)
-            //    : dto.EndTime.ToUniversalTime();
-
+            
+            var startUtc = dto.StartTime.Kind == DateTimeKind.Unspecified
+                ? DateTime.SpecifyKind(dto.StartTime, DateTimeKind.Utc)
+                : dto.StartTime.ToUniversalTime();
+            var endUtc = dto.EndTime.Kind == DateTimeKind.Unspecified
+                ? DateTime.SpecifyKind(dto.EndTime, DateTimeKind.Utc)
+                : dto.EndTime.ToUniversalTime();
             // TODO VERIFICAR QUE EXISTA ARTISTA, STAGES Y QUE LA FECHA DE FIN SEA MAYOR QUE LA DEL INICIO
-
-
+            if (dto.EndTime < dto.StartTime)
+            {
+                throw new ArgumentException("end date must be greater than start time");
+            }
+            if(! await _artists.ExistsAsync(dto.ArtistId))
+            {
+                throw new ArgumentException("artist does not exist");
+            }
+            if(! await _stages.ExistsAsync(dto.StageId))
+            {
+                throw new ArgumentException("stage does not exist");
+            }
             // TODO VERIFICAR QUE NO HAYA SOLAPAMIENTO ENTRE PERFEROMANCES VER QUE EL STAGE ESTE LIBRE.
-           
+            var overlap = await _performances.HasOverlapAsync(dto.StageId, startUtc, endUtc);
+            if(overlap)
+            {
+                throw new ArgumentException("the stage is not available in the given time range");
+            }   
             // ANADIR EL PERFORMANCE
+            var performance = new Performance
+            {
+                ArtistId = dto.ArtistId,
+                StageId = dto.StageId,
+                StartTime = startUtc,
+                EndTime = endUtc
+            };
+            await _performances.AddAsync(performance);
+            await _performances.SaveChangesAsync();
         }
     }
 }
